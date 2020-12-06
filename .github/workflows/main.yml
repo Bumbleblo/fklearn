@@ -1,0 +1,34 @@
+on: [push]
+
+jobs:
+  static-analysis:
+    runs-on: ubuntu-latest
+    name: 'Static Analysis'
+    steps:
+
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+
+      - name: 'Maintainability Index'
+        id: maintainabiliyindex
+        uses: bumbleblo/radon-github-action@test
+        with:
+          command: 'mi'
+          arguments: '-s'
+          path: 'src/'
+
+      - name: 'MCCabe'
+        id: mccabe
+        uses: bumbleblo/radon-github-action@test
+        with:
+          command: 'cc'
+          arguments: '-s -n B'
+          path: 'src/'
+
+      - name: 'Halstead'
+        id: halstead
+        uses: bumbleblo/radon-github-action@test
+        with:
+          command: 'hal'
+          arguments: ''
+          path: 'src/'
